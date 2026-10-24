@@ -1,0 +1,78 @@
+{
+  "_note": "Facts transcribed from dataset/evidence/images/*.png by a vision model (claude-opus-5-5) during development. Regenerate with: python code/main.py --refresh-vision",
+  "account_admin_console_20260926.png": {
+    "text": "Customer Operations\nHaruka Sato\nSilver\nuser_11 · account_5762\nEmail haruka.s1838@zoho.com\nPhone +81 90 7610 2507\nSignup channel mobile_app\nMarket JP\nPreferred language Japanese\nLast contact 24 Sep 2026 09:14 JST\nORD-20265762 12 Sep 2026 Ceramic coffee set Delivered\nORD-20265518 28 Aug 2026 Travel backpack Returned\nDefault address 2-18-4 Kichijoji, Musashino, Tokyo 180-0004\nLoyalty tier Silver\nSupport CS-8538 · support_9538\nMember since 12 Jan 2024\n28 Aug support_9538 created",
+    "records": [
+      {"resource_id": "account_5762", "fields": {"customer_reference": "user_11", "full_name": "Haruka Sato", "email": "haruka.s1838@zoho.com", "phone": "+81 90 7610 2507", "account_status": "ACTIVE"}}
+    ]
+  },
+  "analytics_profile_view_20260713.png": {
+    "text": "Pulse Analytics\nOmar Darwish\nuser_20 · analytics_7438 · darwish.omar@icloud.com\nSessions 12\nProducts viewed 19\nCompleted orders 2\nRevenue USD 167.42\nMarket AE\nAudience Returning shopper\nLast activity 13 Jul 2026 14:22 UTC\nFirst seen 21 Apr 2026 09:14 UTC",
+    "records": [
+      {"resource_id": "analytics_7438", "fields": {"user_id": "user_20", "full_name": "Omar Darwish", "email": "darwish.omar@icloud.com"}}
+    ]
+  },
+  "backup_restore_console_20260429.png": {
+    "text": "Vault Recovery Manager\nCustomer-platform archives\nbackup_9291 bluepeakco@outlook.com ap-southeast-1 26 Apr 02:00\nbackup_9288 miller.logistics@company.com us-west-2 26 Apr 02:00\nbackup_9287 areed1433@gmail.com eu-west-1 26 Apr 02:00\nbackup_9286 summit-retail@company.com us-east-1 26 Apr 02:00\nbackup_9287 Account areed1433@gmail.com Path s3://northstar-backups/customer-platform/weekly/segment-42-20260426.tar.zst Retention end 26 Jul 2026\n25 Apr backup_9286 restored · Completed\n24 Apr backup_9281 restored · Completed",
+    "records": [
+      {"resource_id": "backup_9291", "fields": {"account": "bluepeakco@outlook.com"}},
+      {"resource_id": "backup_9288", "fields": {"account": "miller.logistics@company.com"}},
+      {"resource_id": "backup_9287", "fields": {"account": "areed1433@gmail.com", "archive_path": "s3://northstar-backups/customer-platform/weekly/segment-42-20260426.tar.zst"}},
+      {"resource_id": "backup_9286", "fields": {"account": "summit-retail@company.com"}}
+    ]
+  },
+  "connector_management_console_20260807.png": {
+    "text": "BridgeOps Connections\nPRODUCTION · eu-west · 07 Aug 2026 08:00 UTC\ndata_flow_1121 customer_analytics_warehouse jain.aditi@gmail.com Continuous 1,284 07:59:42\ndata_flow_9846 customer_analytics_warehouse lucia-torres@gmail.com Continuous 842 07:59:36\nOrder notifications notification_service order events Continuous\nDelivery tracking logistics_warehouse shipment events Continuous\ndata_flow_1121 Status Healthy Selector jain.aditi@gmail.com Sync mode Continuous sync\n07:59:42 124 events delivered",
+    "records": [
+      {"resource_id": "data_flow_1121", "fields": {"destination": "customer_analytics_warehouse", "subject_selector": "jain.aditi@gmail.com", "mode": "continuous_sync", "status": "Healthy", "enabled": true}},
+      {"resource_id": "data_flow_9846", "fields": {"destination": "customer_analytics_warehouse", "subject_selector": "lucia-torres@gmail.com", "mode": "continuous_sync", "enabled": true}}
+    ]
+  },
+  "customer_export_console_20260618.png": {
+    "text": "Customer Download Center\nData exports\nexport_1261 customer_export_1261.zip marcus.lee@northstar.shop Collecting 20 Jun 14:18 UTC\nexport_1260 customer_export_1260.zip ingrid.dahl@outlook.com Ready 18 Jun 06:42 UTC\nexport_1259 customer_export_1259.zip sara.kim@northstar.shop Packaging 17 Jun 11:03 UTC\nexport_1258 customer_export_1258.zip daniel.park@northstar.shop Ready 16 Jun 09:27 UTC\nexport_1260 Owner ingrid.dahl@outlook.com Expires 25 Jun 2026 06:42 UTC Download count 0 Included Profile · Orders · Saved addresses",
+    "records": [
+      {"resource_id": "export_1261", "fields": {"owner_email": "marcus.lee@northstar.shop", "status": "Collecting"}},
+      {"resource_id": "export_1260", "fields": {"owner_email": "ingrid.dahl@outlook.com", "file_name": "customer_export_1260.zip", "status": "Ready", "download_available": true}},
+      {"resource_id": "export_1259", "fields": {"owner_email": "sara.kim@northstar.shop", "status": "Packaging"}},
+      {"resource_id": "export_1258", "fields": {"owner_email": "daniel.park@northstar.shop", "status": "Ready"}}
+    ]
+  },
+  "deleted_account_reference_20260310.png": {
+    "text": "Customer Reference Registry\nuser_17\nRetained reference\nCustomer key · Account Platform · eu-west\nReference type Customer key\nCreated 11 Jan 2024 08:42 UTC\nMost recent update 10 Mar 2026 07:18 UTC\nOrders ORD-20263245 Linked to customer Active\nSupport CS-3245 Linked to customer Active\nSupport CS-3378 Linked to customer Active\nFinance FIN-7742 Linked to customer Active",
+    "records": []
+  },
+  "marketing_profile_console.png": {
+    "text": "Audience Operations\nSoo-jin Park\nLive\nmarketing_001 · sj.park@naver.com · +82 10-5837-9451\nMarket South Korea\nLanguage Korean\nEmail opt-in Yes\nSMS opt-in No\nLast refreshed 15 Sep 2026 23:40 UTC\nProfile refreshed from live data",
+    "records": [
+      {"resource_id": "marketing_001", "fields": {"full_name": "Soo-jin Park", "email": "sj.park@naver.com", "phone": "+82 10-5837-9451", "email_opt_in": true, "status": "Live"}}
+    ]
+  },
+  "object_storage_browser_20260213.png": {
+    "text": "Nimbus Object Storage\nnorthstar-customer-data\neu-west-1 / support-attachments / 2026 / 02\nCaptured 13 Feb 2026 08:00 UTC\ndelivery_confirmation_19.pdf 684 KB 12 Feb 18:42 Standard v3\ndelivery_confirmation_20.pdf 712 KB 11 Feb 14:17 Standard v1\nreturn_label_4821.pdf 203 KB\nreturn_label_4876.pdf 198 KB\ninvoice_NS-10493.pdf 318 KB\nparcel_damage_7713.jpg 2.4 MB\ncustomer_export_2026-02-10.zip 128 MB\ncustomer_export_2026-02-12.zip 131 MB\ndelivery_confirmation_19.pdf Uploader support-service Modified 12 Feb 2026 18:42 UTC",
+    "records": []
+  },
+  "search_index_inspector_20260901.png": {
+    "text": "Search Console\nemail:g.silva76@gmail.com\nCustomer Search 2 hits\nExecuted 01 Sep 2026 06:00:14 UTC\nsearch_428 Gabriel Silva g.silva76@gmail.com user_13 9.84 05:58:21 UTC\nsearch_1874 — g.silva76.jr@gmail.com — 4.12 05:55:03 UTC\nRaw document search_428 _index customer_directory_v3 display_name Gabriel Silva email g.silva76@gmail.com customer_reference user_13 indexed_at 2026-09-01T05:58:21Z",
+    "records": [
+      {"resource_id": "search_428", "fields": {"display_name": "Gabriel Silva", "email": "g.silva76@gmail.com", "customer_reference": "user_13", "result": "hit"}},
+      {"resource_id": "search_1874", "fields": {"display_name": null, "email": "g.silva76.jr@gmail.com", "customer_reference": null, "result": "hit"}}
+    ]
+  },
+  "security_audit_explorer_20260905.png": {
+    "text": "Sentinel Account events\nSubject filter: user_03 · 18-26 Aug 2026 UTC\n25 Aug 04:03 Account closure recorded user_03 audit_record_003\n25 Aug 03:21 Session revoked user_03 audit_record_002\n24 Aug 16:14 Recovery challenge completed user_03 audit_record_001\n22 Aug 11:27 Email change confirmed user_03 audit_record_006\n20 Aug 09:42 Login from new device user_03 audit_record_005\n18 Aug 14:05 Password changed user_03 audit_record_004",
+    "records": [
+      {"resource_id": "audit_record_003", "fields": {"subject_reference": "user_03", "event": "account_closure_recorded", "integrity": "Valid"}},
+      {"resource_id": "audit_record_002", "fields": {"subject_reference": "user_03", "event": "session_revoked"}},
+      {"resource_id": "audit_record_001", "fields": {"subject_reference": "user_03", "event": "recovery_challenge_completed"}},
+      {"resource_id": "audit_record_006", "fields": {"subject_reference": "user_03", "event": "email_change_confirmed"}},
+      {"resource_id": "audit_record_005", "fields": {"subject_reference": "user_03", "event": "login_from_new_device"}},
+      {"resource_id": "audit_record_004", "fields": {"subject_reference": "user_03", "event": "password_changed"}}
+    ]
+  },
+  "support_ticket_console_20260524.png": {
+    "text": "Helpline Console\nCS-5034 · Where is my delivery?\nsupport_1034 · Kofi Agyeman · Normal priority\nCustomer Kofi Agyeman\nEmail kagyeman8947@fastmail.com\nAssigned Maya Chen\nKofi Agyeman: Could you let me know where my order is and when it is expected to arrive?\nMaya Chen: The parcel reached the regional hub and is on track for delivery on 26 May.\nOrder ORD-20265034 Running shoes SwiftShip",
+    "records": [
+      {"resource_id": "support_1034", "fields": {"requester_name": "Kofi Agyeman", "requester_email": "kagyeman8947@fastmail.com", "assigned_agent": "Maya Chen", "message_text": "Could you let me know where my order is and when it is expected to arrive?"}}
+    ]
+  }
+}

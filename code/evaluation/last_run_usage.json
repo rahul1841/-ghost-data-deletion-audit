@@ -1,0 +1,10 @@
+{
+  "calls": 0,
+  "input_tokens": 0,
+  "output_tokens": 0,
+  "by_purpose": {},
+  "model": "claude-opus-5-5",
+  "requests": 518,
+  "seconds": 1.9,
+  "input": "deletion_requests.csv"
+}
