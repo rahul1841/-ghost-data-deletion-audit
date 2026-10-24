@@ -12,6 +12,7 @@ The model is Gemini when GEMINI_API_KEY is set, otherwise Claude (see code/ghost
 import argparse
 import csv
 import json
+import os
 import sys
 import time
 from pathlib import Path
@@ -76,7 +77,9 @@ def main(argv=None):
     if args.input == "deletion_requests.csv":   # the usage report describes the run that produced output.csv
         flags = " ".join(f for f, on in (("--llm", args.llm), ("--refresh-vision", args.refresh_vision)) if on)
         usage = llm.save_usage({"requests": len(rows), "seconds": round(time.time() - started, 1), "input": args.input,
-                                "command": f"python code/main.py {flags}".strip(), "intent_check": intent_check})
+                                "command": (f"GHOST_AUDIT_PROVIDER={llm.provider()} " if os.environ.get("GHOST_AUDIT_PROVIDER")
+                                            else "") + f"python code/main.py {flags}".strip(),
+                                "intent_check": intent_check})
         llm.write_usage_report(usage)
     if world.store.errors:
         print("evidence parse errors:", *world.store.errors, sep="\n  ")

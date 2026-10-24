@@ -92,6 +92,8 @@ def image_observations(path, eid, ftime, aliases, Observation, derive_state):
         obs.append(Observation(eid, ftime, ftime, system, rid, state, keys, "screenshot:" + Path(path).stem))
         seen.add(rid)
     text = entry.get("text", "")
+    if isinstance(text, list):   # some models return one list item per visible line
+        text = "\n".join(map(str, text))
     for alias, rid in aliases.items():
         if rid in seen or not alias or not re.search(r"(?<![\w.])" + re.escape(alias) + r"(?![\w])", text):
             continue

@@ -19,14 +19,15 @@ that is committed or zipped.
 
 | Provider | Setup | Default model |
 |---|---|---|
-| Google Gemini | `export GEMINI_API_KEY=...` (PowerShell: `$env:GEMINI_API_KEY="..."`) | `gemini-2.5-flash` |
+| Google Gemini | `export GEMINI_API_KEY=...` (PowerShell: `$env:GEMINI_API_KEY="..."`) | `gemini-3.5-flash-lite` |
 | Anthropic Claude | `pip install anthropic` and `ANTHROPIC_API_KEY` or `ant auth login` | `claude-opus-5-5` |
+| Local model via Ollama | `ollama pull gemma4:e4b`, then `GHOST_AUDIT_PROVIDER=ollama` (no key; `OLLAMA_HOST` if not `localhost:11434`) | `gemma4:e4b` |
 
-Gemini is used when its key is set. Force a provider with `GHOST_AUDIT_PROVIDER=gemini|anthropic`, and change the model with `GHOST_AUDIT_MODEL`.
+Gemini is used when its key is set. Force a provider with `GHOST_AUDIT_PROVIDER=gemini|anthropic|ollama`, and change the model with `GHOST_AUDIT_MODEL`.
 
 - `python code/main.py --llm` makes the model label every request text (batches of 40). It decides the texts the rules cannot, and the run reports how often it agrees with the rules.
 - `python code/main.py --refresh-vision` re-extracts the screenshot facts into `code/ghost_audit/vision_cache/` (one call per image) and writes a readable `image_records.md`.
-- A full run writes `code/evaluation/usage_report.md` from the run's own token counters, so the final submission run is `python code/main.py --llm --refresh-vision`.
+- A full run writes `code/evaluation/usage_report.md` from the run's own token counters. The submitted `output.csv` came from `GHOST_AUDIT_PROVIDER=ollama python code/main.py --llm` (local Gemma 4). Screenshots use the verified cache, because both models we tried extracted them less accurately (see the evaluation report).
 
 ### How it works (`code/ghost_audit/`)
 

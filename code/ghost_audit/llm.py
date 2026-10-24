@@ -1,14 +1,15 @@
-"""Optional model calls with token and cost accounting. Two providers are supported:
+"""Optional model calls with token and cost accounting. Three providers are supported:
 
   * gemini    - Google Gemini over its REST API (stdlib only). Key: GEMINI_API_KEY (or GOOGLE_API_KEY).
   * anthropic - Claude through the `anthropic` SDK. Key: ANTHROPIC_API_KEY or `ant auth login`.
+  * ollama    - a local model served by Ollama (e.g. Gemma 4), no key, $0. Host: OLLAMA_HOST.
 
 The provider is GHOST_AUDIT_PROVIDER when set, otherwise Gemini when a Gemini key is present, otherwise
 Anthropic when the SDK is installed. Keys are read from the environment only and never logged.
 
 The audit pipeline is deterministic and works without any model. The model is used for:
   * screenshot extraction (`--refresh-vision`), cached on disk;
-  * an independent intent check over every request text (`--llm`), cached on disk.
+  * an independent intent check over every request text (`--llm`).
 Every call is counted so evaluation/usage_report.md is produced from real numbers.
 """
 import json
@@ -18,10 +19,13 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 
-DEFAULT_MODEL = {"gemini": "gemini-2.5-flash", "anthropic": "claude-opus-5-5"}
+DEFAULT_MODEL = {"gemini": "gemini-3.5-flash-lite", "anthropic": "claude-opus-5-5", "ollama": "gemma4:e4b"}
 # USD per million tokens (input, output); override with GHOST_AUDIT_PRICE_IN / GHOST_AUDIT_PRICE_OUT
-PRICES = {"gemini-2.5-flash": (0.30, 2.50), "gemini-2.5-pro": (1.25, 10.00), "claude-opus-5-5": (4.00, 20.00)}
+PRICES = {"gemini-3.5-flash-lite": (0.30, 2.50), "gemini-2.5-flash": (0.30, 2.50), "gemini-2.5-pro": (1.25, 10.00), "claude-opus-5-5": (4.00, 20.00)}
 GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
+OLLAMA_HOST = os.environ.get("OLLAMA_HOST", "http://localhost:11434")
+if not OLLAMA_HOST.startswith("http"):
+    OLLAMA_HOST = "http://" + OLLAMA_HOST
 
 USAGE = {"calls": 0, "input_tokens": 0, "output_tokens": 0, "by_purpose": {}}
 EVAL_DIR = Path(__file__).resolve().parents[1] / "evaluation"
@@ -55,6 +59,12 @@ def available():
     p = provider()
     if p == "gemini":
         return bool(_gemini_key())
+    if p == "ollama":
+        try:
+            with urllib.request.urlopen(OLLAMA_HOST + "/api/tags", timeout=5):
+                return True
+        except (OSError, urllib.error.URLError):
+            return False
     if p == "anthropic":
         try:
             import anthropic  # noqa: F401
@@ -78,6 +88,8 @@ def complete(content, max_tokens=1024, purpose="general", system=None, json_mode
     """content: Anthropic-style blocks ({"type": "text"} / {"type": "image", "source": {...}})."""
     if provider() == "gemini":
         return _gemini(content, max_tokens, purpose, system, json_mode)
+    if provider() == "ollama":
+        return _ollama(content, max_tokens, purpose, system, json_mode)
     return _anthropic(content, max_tokens, purpose, system)
 
 
@@ -117,6 +129,33 @@ def _gemini(content, max_tokens, purpose, system, json_mode):
     return "".join(p.get("text", "") for p in cands[0].get("content", {}).get("parts", []) if not p.get("thought"))
 
 
+def _ollama(content, max_tokens, purpose, system, json_mode):
+    msg = {"role": "user", "content": "\n".join(b["text"] for b in content if b.get("type") == "text")}
+    images = [b["source"]["data"] for b in content if b.get("type") == "image"]
+    if images:
+        msg["images"] = images
+    body = {"model": model(), "messages": ([{"role": "system", "content": system}] if system else []) + [msg],
+            "stream": False, "think": False, "options": {"temperature": 0, "num_predict": max_tokens}}
+    if json_mode:
+        body["format"] = "json"
+    while True:
+        req = urllib.request.Request(OLLAMA_HOST + "/api/chat", data=json.dumps(body).encode("utf-8"),
+                                     headers={"Content-Type": "application/json"})
+        try:
+            with urllib.request.urlopen(req, timeout=600) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+            break
+        except urllib.error.HTTPError as exc:
+            err = exc.read().decode("utf-8", "replace")
+            # some runners (e.g. MLX) cannot enforce JSON; callers already extract JSON from plain text
+            if exc.code == 501 and "format" in body:
+                del body["format"]
+                continue
+            raise RuntimeError(f"Ollama error {exc.code}: {err[:300]}")
+    _count(purpose, data.get("prompt_eval_count", 0), data.get("eval_count", 0))
+    return data.get("message", {}).get("content", "")
+
+
 def _anthropic(content, max_tokens, purpose, system):
     import anthropic
     client = anthropic.Anthropic()
@@ -135,6 +174,8 @@ def _anthropic(content, max_tokens, purpose, system):
 
 
 def price():
+    if provider() == "ollama":   # runs on the local machine
+        return 0.0, 0.0
     pin, pout = PRICES.get(model(), (None, None))
     pin = float(os.environ.get("GHOST_AUDIT_PRICE_IN", pin if pin is not None else 0))
     pout = float(os.environ.get("GHOST_AUDIT_PRICE_OUT", pout if pout is not None else 0))
@@ -161,7 +202,7 @@ def write_usage_report(data):
     n = data.get("requests") or 1
     tot = data["input_tokens"] + data["output_tokens"]
     calls = data["calls"]
-    prov = {"gemini": "Google", "anthropic": "Anthropic"}.get(data.get("provider"), "—")
+    prov = {"gemini": "Google", "anthropic": "Anthropic", "ollama": "Local (Ollama)"}.get(data.get("provider"), "—")
     name = f"`{data['model']}`" if data.get("model") else "none (no model configured)"
     pin, pout = price() if calls else (0, 0)
     rows = []

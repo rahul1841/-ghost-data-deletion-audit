@@ -5,12 +5,12 @@ This file is written by `python code/main.py` at the end of every full run over
 
 ## Final run that produced `output.csv`
 
-Command: `python code/main.py` · 518 requests · 1.3 s
+Command: `GHOST_AUDIT_PROVIDER=ollama python code/main.py --llm` · 518 requests · 17.7 s
 
 | Provider | Model | Model calls | Input tokens | Output tokens | Total tokens | Avg tokens / request | Est. cost | Est. cost / request |
 |---|---|---|---|---|---|---|---|---|
-| — | none (no model configured) | 0 | 0 | 0 | 0 | 0.0 | $0.0000 | $0.000000 |
-| **Overall** | | **0** | **0** | **0** | **0** | **0.0** | **$0.0000** | **$0.000000** |
+| Local (Ollama) | `gemma4:e4b` | 10 | 16,684 | 3,355 | 20,039 | 38.7 | $0.0000 | $0.000000 |
+| **Overall** | | **10** | **16,684** | **3,355** | **20,039** | **38.7** | **$0.0000** | **$0.000000** |
 
 Prices used: $0.00 / $0.00 per million input / output tokens (`PRICES` in `code/ghost_audit/llm.py`,
 override with `GHOST_AUDIT_PRICE_IN` / `GHOST_AUDIT_PRICE_OUT`). Check them against the provider's current price list.
@@ -19,11 +19,11 @@ override with `GHOST_AUDIT_PRICE_IN` / `GHOST_AUDIT_PRICE_OUT`). Check them agai
 
 | Purpose | Calls | Input tokens | Output tokens | Total tokens | Est. cost |
 |---|---|---|---|---|---|
-| — | 0 | 0 | 0 | 0 | $0.0000 |
+| intent | 10 | 16,684 | 3,355 | 20,039 | $0.0000 |
 
 ### Intent cross-check
 
-Not run (`--llm` not passed or no model configured): the multilingual rules decided every text.
+The model labelled 375 of 375 request texts. It agreed with the multilingual rules on 375 of them (100.0%). Disagreements: 0 (listed in `last_run_usage.json`; the rules decide confident texts, the model decides the rest).
 
 ### Screenshot facts
 
